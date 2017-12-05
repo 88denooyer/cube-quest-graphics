@@ -11,28 +11,27 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
+
 public class EnemyClass
 {
     /** Maximum number of enemies   */
     static final int ENEMY_COUNT = 50;
-    //static final int BOSS_ENEMY_COUNT = 5;
 
     /** Size of the enemies */
     static final float ENEMY_SIZE = 0.5f;
-    //static final float BOSS_ENEMY_SIZE = 1.0f;
 
     /** Enemy speed in distance per second  */
     static final float ENEMY_SPEED = 0.8f;
-    //static final float BOSS_ENEMY_SPEED = 0.4f;
 
     /** Time it takes for enemy to spawn in seconds */
     static final float ENEMY_SPAWN_TIME = 1.0f;
-    //static final float BOSS_ENEMY_SPAWN_TIME = 30.0f;
-
 
     /** Starting health of enemies  */
     static final float ENEMY_MAX_HEALTH = 10.0f;
-    //static final float BOSS_ENEMY_MAX_HEALTH = 30.0f;
 
     //=================================================================================================================
 
@@ -91,6 +90,7 @@ public class EnemyClass
             // if enemy is finished spawning...
             if (e.t >= 0.0f)
             {
+                // Collision property with a player callback to CollisionProperties class
                 if(CollisionProperties.col.checkCollisionPlayer(PlayerClass.player, enemies[i]) == true) {}
                 else
                 {

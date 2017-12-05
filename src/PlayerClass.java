@@ -12,6 +12,11 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
+
 public class PlayerClass
 {
     enum Direction {NORTH, SOUTH, EAST, WEST}
@@ -43,8 +48,8 @@ public class PlayerClass
     {
         //float maxHealth = 100;
         float health = 100;
-        boolean isAlive = true;
-        boolean playerDead()
+        boolean isAlive = true;     // not working TODO:
+        boolean playerDead()        // not implemented TODO:
         {
             if(player.health < 0)
                 System.exit(0);

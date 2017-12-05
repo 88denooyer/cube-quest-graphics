@@ -12,6 +12,12 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
+
+// TODO: not sure if the collision properties actually affect the player health like it should
 public class CollisionProperties
 {
     public boolean checkCollisionPlayer(PlayerClass.Player p, EnemyClass.Enemy e)

@@ -11,6 +11,12 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
+
+/** DUPLICATE OF ENEMY CLASS TO FIT CHARACTERISTICS OF BOSS ENEMY   */
 public class BossEnemyClass
 {
     static final int BOSS_COUNT = 5;

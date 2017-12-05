@@ -18,6 +18,11 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  * Electrical Engineering and Computer Science
  * The Catholic University of America
  */
+
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
 //=================================================================================================================
 public class CubeQuest
 {
@@ -143,6 +148,7 @@ public class CubeQuest
 
         // TODO: initialize game elements
 
+        // Initializes Player, Enemy, and Boss
         PlayerClass.playerInit();
         EnemyClass.enemiesInit();
         BossEnemyClass.bossInit();
@@ -158,7 +164,6 @@ public class CubeQuest
             // perform time step and render
             float dt = 0.001f * (System.currentTimeMillis() - timeStamp);
             {
-
                 gameHandleInput();
                 gameUpdate(dt);
                 gameHandleCollisions();
@@ -183,6 +188,11 @@ public class CubeQuest
         // escape to quit
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
             finished = true;
+
+
+        /** Changed so that W A S D causes movement
+         *  arrow keys change shooting direction when stationary
+         *  always shooting */
 
         // arrow keys
         PlayerClass.player.dx = 0.0f;
@@ -236,6 +246,7 @@ public class CubeQuest
     {
         // TODO: add updates to all game elements.
 
+        // Updates so that actions take place
         PlayerClass.player.update(dt);
         PlayerClass.player.updateBoss(dt);
         //EnemyClass.enemies.update(dt);
@@ -250,6 +261,8 @@ public class CubeQuest
     {
         // TODO: add necessary collision checks and behaviors.
 
+
+        // Updates collisions and shots
         collisionShotsAndEnemies();
         collisionShotsandBossEnemies();
         CollisionProperties.col.checkCollisionPlayer(PlayerClass.player, EnemyClass.enemies[0]);
@@ -261,6 +274,7 @@ public class CubeQuest
     //=================================================================================================================
     /** Check for collisions between player shots and enemies   */
 
+    // Duplicated function so that shots hit BOSS enemies too
     static void collisionShotsandBossEnemies()
     {
         for(PlayerClass.PlayerShot shot : PlayerClass.player.shots)
@@ -344,6 +358,7 @@ public class CubeQuest
     // UTILITY AND MISC.
     // =========================================================================
 
+    // Grabs the object from displayHealth and projects
     static void displayHUD()
     {
         float w = Display.getWidth();

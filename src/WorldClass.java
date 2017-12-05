@@ -11,6 +11,13 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+/** ADD NAME FOR CHANGES:
+ *
+ *
+ * */
+
+// TODO: change world characteristics
+
 public class WorldClass
 {
 
