@@ -78,7 +78,7 @@ public class CollisionProperties
 
         for(int i = 0; i < BossEnemyClass.BOSS_COUNT; i++)
         {
-            if((abs(p.x - be.x) < 1.5f) && abs(p.z - be.z) < 1.5f)
+            if((abs(p.x - be.x) < BossEnemyClass.BOSS_SIZE + 0.5f) && abs(p.z - be.z) < BossEnemyClass.BOSS_SIZE + 0.5f)
             {
                 collision = true;
                 p.health -= 0.1f;
