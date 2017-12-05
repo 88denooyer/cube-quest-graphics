@@ -160,7 +160,10 @@ public class CubeQuest
     /** Main loop of the application. Repeats until finished variable takes on true */
     static void gameRun() {
         long timeStamp = System.currentTimeMillis();
-        while (!finished) {
+
+        // changed 'while(!finished)'
+        // will end game once health is depleted 
+        while (PlayerClass.player.playerDead()) {
             // perform time step and render
             float dt = 0.001f * (System.currentTimeMillis() - timeStamp);
             {
@@ -388,7 +391,7 @@ public class CubeQuest
         float maxBarHeight = 200.0f;
         float barWidth = 50.0f;
 
-        float barHeight = maxBarHeight * PlayerClass.player.health;
+        float barHeight = maxBarHeight * PlayerClass.player.health / 100; //PlayerClass.player.maxHealth;
 
         glPushMatrix();
         glTranslatef(margin, margin, 0.0f);

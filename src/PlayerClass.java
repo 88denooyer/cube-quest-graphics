@@ -46,7 +46,7 @@ public class PlayerClass
     //=================================================================================================================
     static class Player
     {
-        //float maxHealth = 100;
+        float maxHealth = 100;
         float health = 100;
         boolean isAlive = true;     // not working TODO:
         boolean playerDead()        // not implemented TODO:
