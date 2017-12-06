@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.*;
+import java.awt.Canvas;
 
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -74,7 +76,6 @@ public class CubeQuest
     static boolean finished;
 
     //=================================================================================================================
-
     /** Initialize display and OpenGL properties
      * @throws Exception    */
     static void gameInit() throws Exception
@@ -152,18 +153,17 @@ public class CubeQuest
         PlayerClass.playerInit();
         EnemyClass.enemiesInit();
         BossEnemyClass.bossInit();
-
     }
 
     //=================================================================================================================
-
     /** Main loop of the application. Repeats until finished variable takes on true */
     static void gameRun() {
         long timeStamp = System.currentTimeMillis();
 
         // changed 'while(!finished)'
-        // will end game once health is depleted 
-        while (PlayerClass.player.playerDead()) {
+        // will end game once health is depleted
+        // added && !finished so the player can exit with the escape key
+        while (PlayerClass.player.playerDead() && !finished) {
             // perform time step and render
             float dt = 0.001f * (System.currentTimeMillis() - timeStamp);
             {

@@ -157,9 +157,6 @@ public class EnemyClass
      * @param z A float.
      * @param r A float.
      * @return A list of enemies    */
-
-
-
     static List<Enemy> enemiesFind(float x, float z, float r)
     {
         List<Enemy> list = new ArrayList<>(ENEMY_COUNT);

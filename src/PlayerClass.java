@@ -64,8 +64,8 @@ public class PlayerClass
                 {
                     dx = -1 * (EnemyClass.enemies[i].dx * 0.01f);
                     dz = -1 * (EnemyClass.enemies[i].dz * 0.01f);
-                    x -= dx * 15.0f;
-                    z -= dz * 15.0f;
+                    x -= dx * 5.0f;
+                    z -= dz * 5.0f;
                 }
             }
         }
@@ -77,8 +77,8 @@ public class PlayerClass
                 {
                     dx = -1 * (BossEnemyClass.bigEnemies[i].dx * 0.01f);
                     dz = -1 * (BossEnemyClass.bigEnemies[i].dz * 0.01f);
-                    x -= dx * 15.0f;
-                    z -= dz * 15.0f;
+                    x -= dx * 5.0f;
+                    z -= dz * 5.0f;
                 }
             }
         }
