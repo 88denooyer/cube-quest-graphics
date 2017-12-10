@@ -1,1 +1,0 @@
-Place pictures and textures into this folder.

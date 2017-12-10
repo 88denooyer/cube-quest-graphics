@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public class CubeQuest {
     static final String APP_TITLE = CubeQuest.class.getName();
 
     /** Target frame rate */
-    static final int FRAME_RATE = 120;
+    static final int FRAME_RATE = 60;
+    private static final float FAR_PLANE = 120.0f;
 
     /** Light position (in camera space) */
     static final FloatBuffer lightPosition = floatBuffer(3.0f, 4.0f, 5.0f, 1.0f);
@@ -166,6 +168,7 @@ public class CubeQuest {
                 gameHandleCollisions();
                 gameRenderFrame();
                 showPoints();
+                themeGame();
             }
             timeStamp = System.currentTimeMillis();
             Display.sync(FRAME_RATE);
@@ -454,6 +457,27 @@ public class CubeQuest {
 
         Display.setTitle(Long.toString(PlayerClass.points));
     }
+
+    public static void themeGame()
+    {
+        glColor3f(0.0f, 0.5f, 1.0f);
+        glBegin(GL_QUADS);
+        {
+            glVertex3f(-FAR_PLANE, -10.0f, -FAR_PLANE);
+            glVertex3f(-FAR_PLANE, -10.0f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -10.0f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -10.0f, -FAR_PLANE);
+
+            glVertex3f(FAR_PLANE, -10.0f, FAR_PLANE);
+
+            //glVertex3f(-FAR_PLANE, 10.0f, -FAR_PLANE); // flat above player
+            //glVertex3f(-FAR_PLANE, 10.1f, +FAR_PLANE);
+            //glVertex3f(FAR_PLANE, -110.1f, +FAR_PLANE);
+            //glVertex3f(FAR_PLANE, -0.1f, -FAR_PLANE);
+        }
+        glEnd();
+    }
+
     // =================================================================================================================
     // MAIN
     // =================================================================================================================
