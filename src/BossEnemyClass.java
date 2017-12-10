@@ -125,8 +125,8 @@ public class BossEnemyClass
 
     static void bossRespawn(Boss be)
     {
-        be.x = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS);
-        be.z = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS);
+        be.x = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS,PlayerClass.player.x);
+        be.z = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS,PlayerClass.player.z);//inputs the player's location to ensure it does not spawn on the player
         be.t = -BOSS_SPAWN_TIME;
         be.health = BOSS_MAX_HEALTH;
     }

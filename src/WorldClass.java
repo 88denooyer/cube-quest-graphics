@@ -92,9 +92,13 @@ public class WorldClass
      * @param lower A float.
      * @param upper A float.
      * @return A float          */
-    static float randomGen(float lower, float upper)
+    static float randomGen(float lower, float upper,float p)
     {
-        return random.nextFloat()*(upper - lower) + lower;
+        float r = random.nextFloat()*(upper - lower) + lower;
+        if(r<=p-5 || r>p+5)//checks to see if the enemy is within 5 units of the player
+            return r;//if the distance is sufficient, it returns the value
+        else
+            return randomGen(lower,upper,p);//if it is not, it runs the function again to get a workable value
     }
 
 }

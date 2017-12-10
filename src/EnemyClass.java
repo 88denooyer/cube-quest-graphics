@@ -176,8 +176,8 @@ public class EnemyClass
 
     static void enemiesRespawn(Enemy e)
     {
-        e.x = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS);
-        e.z = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS);
+        e.x = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS,PlayerClass.player.x);
+        e.z = WorldClass.randomGen(-WorldClass.WORLD_RADIUS, +WorldClass.WORLD_RADIUS,PlayerClass.player.z);//passes in the player value to ensure it does not spawn on the player
         e.t = -ENEMY_SPAWN_TIME;
         e.health = ENEMY_MAX_HEALTH;
     }
