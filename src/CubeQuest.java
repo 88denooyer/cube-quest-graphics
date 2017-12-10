@@ -36,7 +36,7 @@ public class CubeQuest {
     static final String APP_TITLE = CubeQuest.class.getName();
 
     /** Target frame rate */
-    static final int FRAME_RATE = 120;
+    static final int FRAME_RATE = 60;
 
     /** Light position (in camera space) */
     static final FloatBuffer lightPosition = floatBuffer(3.0f, 4.0f, 5.0f, 1.0f);
@@ -261,7 +261,7 @@ public class CubeQuest {
 
     // =================================================================================================================
     /** Check for collisions between player shots and enemies */
-
+    static HighscoreManager high = new HighscoreManager();
     static void collisionShotsandBossEnemies() {
         for (PlayerClass.PlayerShot shot : PlayerClass.player.shots) {
             if (shot.t < PlayerClass.PLAYER_SHOT_DURATION) {
@@ -270,10 +270,14 @@ public class CubeQuest {
                     be.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
                     if (be.health <= 0) {
                         PlayerClass.points += PlayerClass.perBossKill;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                         BossEnemyClass.bossRespawn(be);
                     }
                     else {
                         PlayerClass.points += PlayerClass.perBossHit;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                     }
 
                     shot.t = PlayerClass.PLAYER_SHOT_DURATION;
@@ -293,10 +297,14 @@ public class CubeQuest {
                     e.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
                     if (e.health <= 0) {
                         PlayerClass.points += PlayerClass.perKill;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                         EnemyClass.enemiesRespawn(e);
                     }
                     else {
                         PlayerClass.points += PlayerClass.perHit;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                     }
 
 
@@ -353,6 +361,7 @@ public class CubeQuest {
     // =========================================================================
     // UTILITY AND MISC.
     // =========================================================================
+
 
     static void displayHUD() {
         float w = Display.getWidth();
@@ -451,13 +460,15 @@ public class CubeQuest {
         //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256,
         //0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
-
-        Display.setTitle(Long.toString(PlayerClass.points));
+        String TitleString= "Score:  " + Long.toString(PlayerClass.points)+
+                                    "                                       High Score:"+  high.getHighscoreString();
+        Display.setTitle(TitleString);
     }
     // =================================================================================================================
     // MAIN
     // =================================================================================================================
     public static void main(String[] args) {
+
         try {
             gameInit();
             gameRun();
