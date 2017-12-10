@@ -25,7 +25,7 @@ public class EnemyClass
     static final float ENEMY_SIZE = 0.5f;
 
     /** Enemy speed in distance per second  */
-    static final float ENEMY_SPEED = 0.8f;
+    static final float ENEMY_SPEED = 1.5f;
 
     /** Time it takes for enemy to spawn in seconds */
     static final float ENEMY_SPAWN_TIME = 1.0f;
