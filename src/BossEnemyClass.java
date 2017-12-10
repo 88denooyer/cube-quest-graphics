@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
@@ -20,7 +21,7 @@ public class BossEnemyClass
 {
     static final int BOSS_COUNT = 5;
     static final float BOSS_SIZE = 2.0f;
-    static final float BOSS_SPEED = 2.0f;
+    static final float BOSS_SPEED = 2.5f;
     static final float BOSS_SPAWN_TIME = 1.0f;
     static final float BOSS_MAX_HEALTH = 30.0f;
 

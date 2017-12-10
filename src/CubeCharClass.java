@@ -28,7 +28,6 @@ public class CubeCharClass
     /** Plot a unit cube (i.e, a cube spanning the [-1, 1] interval on the X, Y, and Z axes)    */
     static void plotSolidCube()
     {
-
         // set flat shading
         glShadeModel(GL_FLAT);
 

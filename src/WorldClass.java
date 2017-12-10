@@ -64,7 +64,7 @@ public class WorldClass
         // camera's spherical coordinates about the player
         public float azimuth     =  0.0f;
         public float elevation   = -37.5f;
-        public float distance    =  8.0f;
+        public float distance    =  6.0f;
 
         // clipping planes
         public float nearPlane   =  0.1f;
