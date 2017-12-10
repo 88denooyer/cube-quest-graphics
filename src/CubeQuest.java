@@ -2,12 +2,14 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.awt.*;
-import java.awt.Canvas;
 
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -16,72 +18,64 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 /**
  * CSC 322: Introduction to Computer Graphics, Fall 2017
  *
- * Brad Taylor, DSc
- * Electrical Engineering and Computer Science
- * The Catholic University of America
+ * Brad Taylor, DSc Electrical Engineering and Computer Science The Catholic
+ * University of America
  */
+// =====================================================================================================================
+public class CubeQuest {
 
-/** ADD NAME FOR CHANGES:
- *
- *
- * */
-//=================================================================================================================
-public class CubeQuest
-{
-    /** Locked out constructor; this class is static    */
-    private CubeQuest() { }
+    /** Locked out constructor; this class is static */
+    private CubeQuest() {
+    }
 
-    //=================================================================================================================
+    // =================================================================================================================
     // GAME FRAMEWORK
-    //=================================================================================================================
+    // =================================================================================================================
 
     /** Application title (shown on window bar) */
     static final String APP_TITLE = CubeQuest.class.getName();
 
-    /** Target frame rate   */
+    /** Target frame rate */
     static final int FRAME_RATE = 120;
 
-    /** Light position (in camera space)    */
-    static final FloatBuffer lightPosition =
-            floatBuffer(3.0f, 4.0f, 5.0f, 1.0f);
+    /** Light position (in camera space) */
+    static final FloatBuffer lightPosition = floatBuffer(3.0f, 4.0f, 5.0f, 1.0f);
 
-    /** Ambient component of light  */
-    static final FloatBuffer lightAmbient  =
-            floatBuffer(0.2f, 0.2f, 0.2f, 1.0f);
+    /** Ambient component of light */
+    static final FloatBuffer lightAmbient = floatBuffer(0.2f, 0.2f, 0.2f, 1.0f);
 
-    /** Diffuse component of light  */
-    static final FloatBuffer lightDiffuse  =
-            floatBuffer(0.5f, 0.5f, 0.5f, 1.0f);
+    /** Diffuse component of light */
+    static final FloatBuffer lightDiffuse = floatBuffer(0.5f, 0.5f, 0.5f, 1.0f);
 
     /** Specular component of light */
-    static final FloatBuffer lightSpecular =
-            floatBuffer(0.1f, 0.1f, 0.1f, 1.0f);
+    static final FloatBuffer lightSpecular = floatBuffer(0.1f, 0.1f, 0.1f, 1.0f);
 
-    /** Ambient component of material   */
-    static final FloatBuffer materialAmbient  =
-            floatBuffer( 1.0f, 1.0f, 1.0f, 1.0f);
+    /** Ambient component of material */
+    static final FloatBuffer materialAmbient = floatBuffer(1.0f, 1.0f, 1.0f, 1.0f);
 
-    /** Diffuse component of material   */
-    static final FloatBuffer materialDiffuse  =
-            floatBuffer( 1.0f, 1.0f, 1.0f, 1.0f);
+    /** Diffuse component of material */
+    static final FloatBuffer materialDiffuse = floatBuffer(1.0f, 1.0f, 1.0f, 1.0f);
 
-    /** Specular component of material  */
-    static final FloatBuffer materialSpecular =
-            floatBuffer( 1.0f, 1.0f, 1.0f, 1.0f);
+    /** Specular component of material */
+    static final FloatBuffer materialSpecular = floatBuffer(1.0f, 1.0f, 1.0f, 1.0f);
 
-    /** Material shininess (specular exponent)  */
+    /** Material shininess (specular exponent) */
     static final float materialShininess = 8.0f;
 
-    /** Exit flag (application will finish when set to true)    */
+    /** Exit flag (application will finish when set to true) */
     static boolean finished;
 
-    //=================================================================================================================
-    /** Initialize display and OpenGL properties
-     * @throws Exception    */
-    static void gameInit() throws Exception
-    {
 
-        //System.setProperty("org.lwjgl.opengl.Display.enableHighDPI", "true");
+    // =================================================================================================================
+
+    /**
+     * Initialize display and OpenGL properties
+     *
+     * @throws Exception
+     */
+    static void gameInit() throws Exception {
+
+        // System.setProperty("org.lwjgl.opengl.Display.enableHighDPI", "true");
 
         // initialize the display
         Display.setTitle(APP_TITLE);
@@ -102,9 +96,9 @@ public class CubeQuest
         // perspective transformation
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        float aspectRatio = ((float) width)/height;
-        gluPerspective(WorldClass.camera.fieldOfView, aspectRatio,
-                WorldClass.camera.nearPlane, WorldClass.camera.farPlane);
+        float aspectRatio = ((float) width) / height;
+        gluPerspective(WorldClass.camera.fieldOfView, aspectRatio, WorldClass.camera.nearPlane,
+                WorldClass.camera.farPlane);
 
         // background color
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -149,28 +143,29 @@ public class CubeQuest
 
         // TODO: initialize game elements
 
-        // Initializes Player, Enemy, and Boss
         PlayerClass.playerInit();
         EnemyClass.enemiesInit();
         BossEnemyClass.bossInit();
+
     }
 
-    //=================================================================================================================
-    /** Main loop of the application. Repeats until finished variable takes on true */
+    // =================================================================================================================
+
+    /**
+     * Main loop of the application. Repeats until finished variable takes on true
+     */
     static void gameRun() {
         long timeStamp = System.currentTimeMillis();
-
-        // changed 'while(!finished)'
-        // will end game once health is depleted
-        // added && !finished so the player can exit with the escape key
         while (PlayerClass.player.playerDead() && !finished) {
             // perform time step and render
             float dt = 0.001f * (System.currentTimeMillis() - timeStamp);
             {
+
                 gameHandleInput();
                 gameUpdate(dt);
                 gameHandleCollisions();
                 gameRenderFrame();
+                showPoints();
             }
             timeStamp = System.currentTimeMillis();
             Display.sync(FRAME_RATE);
@@ -182,20 +177,17 @@ public class CubeQuest
         }
     }
 
-    //=================================================================================================================
-    /** Handle input to the game    */
+    // =================================================================================================================
+    /** Handle input to the game */
     static void gameHandleInput() {
 
         // TODO: Modify as needed to handle game input.
 
         // escape to quit
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+        if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+        {
             finished = true;
-
-
-        /** Changed so that W A S D causes movement
-         *  arrow keys change shooting direction when stationary
-         *  always shooting */
+        }
 
         // arrow keys
         PlayerClass.player.dx = 0.0f;
@@ -213,7 +205,6 @@ public class CubeQuest
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             PlayerClass.player.facing = PlayerClass.Direction.EAST;
         }
-
 
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             PlayerClass.player.dx = -1.0f;
@@ -236,36 +227,30 @@ public class CubeQuest
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             PlayerClass.playerShoot();
         }
-        if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE))
-        {
+        if (!Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             PlayerClass.playerShoot();
         }
 
     }
 
-    //=================================================================================================================
-    /** Handle input and update scene   */
-    static void gameUpdate(float dt)
-    {
+    // =================================================================================================================
+    /** Handle input and update scene */
+    static void gameUpdate(float dt) {
         // TODO: add updates to all game elements.
 
-        // Updates so that actions take place
         PlayerClass.player.update(dt);
         PlayerClass.player.updateBoss(dt);
-        //EnemyClass.enemies.update(dt);
+        // EnemyClass.enemies.update(dt);
         PlayerClass.playerUpdate(dt);
         EnemyClass.enemiesUpdate(dt);
         BossEnemyClass.bossUpdate(dt);
     }
 
-    //=================================================================================================================
-    /** Check for relevant collisions and handle them   */
-    static void gameHandleCollisions()
-    {
+    // =================================================================================================================
+    /** Check for relevant collisions and handle them */
+    static void gameHandleCollisions() {
         // TODO: add necessary collision checks and behaviors.
 
-
-        // Updates collisions and shots
         collisionShotsAndEnemies();
         collisionShotsandBossEnemies();
         CollisionProperties.col.checkCollisionPlayer(PlayerClass.player, EnemyClass.enemies[0]);
@@ -274,51 +259,59 @@ public class CubeQuest
 
     }
 
-    //=================================================================================================================
-    /** Check for collisions between player shots and enemies   */
+    // =================================================================================================================
+    /** Check for collisions between player shots and enemies */
 
-    // Duplicated function so that shots hit BOSS enemies too
-    static void collisionShotsandBossEnemies()
-    {
-        for(PlayerClass.PlayerShot shot : PlayerClass.player.shots)
-        {
-            if(shot.t < PlayerClass.PLAYER_SHOT_DURATION)
-            {
+    static void collisionShotsandBossEnemies() {
+        for (PlayerClass.PlayerShot shot : PlayerClass.player.shots) {
+            if (shot.t < PlayerClass.PLAYER_SHOT_DURATION) {
                 List<BossEnemyClass.Boss> list = BossEnemyClass.bossFind(shot.x, shot.z, PlayerClass.PLAYER_SHOT_SIZE);
-                for(BossEnemyClass.Boss be : list)
-                {
+                for (BossEnemyClass.Boss be : list) {
                     be.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
-                    if(be.health <= 0)
+                    if (be.health <= 0) {
+                        PlayerClass.points += PlayerClass.perBossKill;
                         BossEnemyClass.bossRespawn(be);
-                    shot.t = PlayerClass.PLAYER_SHOT_DURATION;
-                } } } }
+                    }
+                    else {
+                        PlayerClass.points += PlayerClass.perBossHit;
+                    }
 
-    static void collisionShotsAndEnemies()
-    {
+                    shot.t = PlayerClass.PLAYER_SHOT_DURATION;
+                }
+            }
+        }
+    }
+
+    static void collisionShotsAndEnemies() {
         // for each active shot...
-        for (PlayerClass.PlayerShot shot : PlayerClass.player.shots)
-        {
-            if (shot.t < PlayerClass.PLAYER_SHOT_DURATION)
-            {
+        for (PlayerClass.PlayerShot shot : PlayerClass.player.shots) {
+            if (shot.t < PlayerClass.PLAYER_SHOT_DURATION) {
                 // check for shot collision with enemy
                 List<EnemyClass.Enemy> list = EnemyClass.enemiesFind(shot.x, shot.z, PlayerClass.PLAYER_SHOT_SIZE);
-                for (EnemyClass.Enemy e : list)
-                {
+                for (EnemyClass.Enemy e : list) {
                     // register damage to enemy
                     e.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
-                    if (e.health <= 0)
+                    if (e.health <= 0) {
+                        PlayerClass.points += PlayerClass.perKill;
                         EnemyClass.enemiesRespawn(e);
+                    }
+                    else {
+                        PlayerClass.points += PlayerClass.perHit;
+                    }
+
 
                     // disable shot
                     shot.t = PlayerClass.PLAYER_SHOT_DURATION;
-                } } } }
+                }
+            }
+        }
+    }
 
-    //=================================================================================================================
+    // =================================================================================================================
 
-    //=================================================================================================================
-    /** Render the scene from the current view   */
-    static void gameRenderFrame()
-    {
+    // =================================================================================================================
+    /** Render the scene from the current view */
+    static void gameRenderFrame() {
 
         // clear the screen and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -347,12 +340,12 @@ public class CubeQuest
             BossEnemyClass.bossPlot();
         }
         glPopMatrix();
+
     }
 
-    //=================================================================================================================
-    /** Clean up before exit    */
-    static void gameCleanup()
-    {
+    // =================================================================================================================
+    /** Clean up before exit */
+    static void gameCleanup() {
         // Close the window
         Display.destroy();
     }
@@ -361,9 +354,7 @@ public class CubeQuest
     // UTILITY AND MISC.
     // =========================================================================
 
-    // Grabs the object from displayHealth and projects
-    static void displayHUD()
-    {
+    static void displayHUD() {
         float w = Display.getWidth();
         float h = Display.getHeight();
 
@@ -375,7 +366,7 @@ public class CubeQuest
         {
             glLoadIdentity();
             glTranslatef(-1.0f, -1.0f, -1.0f);
-            glScalef(1/(w/2.0f), 1/(h/2.0f), 1.0f);
+            glScalef(1 / (w / 2.0f), 1 / (h / 2.0f), 1.0f);
             glDisable(GL_LIGHTING);
             displayHealth(w, h);
         }
@@ -385,46 +376,48 @@ public class CubeQuest
         glPopMatrix();
     }
 
-    static void displayHealth(float w, float h)
-    {
+    static void displayHealth(float w, float h) {
         float margin = 50.0f;
         float maxBarHeight = 200.0f;
         float barWidth = 50.0f;
 
-        float barHeight = maxBarHeight * PlayerClass.player.health / 100; //PlayerClass.player.maxHealth;
+        float barHeight = maxBarHeight * PlayerClass.player.health / PlayerClass.player.maxHealth;
 
         glPushMatrix();
         glTranslatef(margin, margin, 0.0f);
         glBegin(GL_QUADS);
         {
             glColor3f(0.5f, 0.5f, 0.5f);
-            glVertex2d(0.0f,barHeight);
-            glVertex2d(barWidth,barHeight);
-            glVertex2d(barWidth,maxBarHeight);
-            glVertex2d(0.0f,maxBarHeight);
+            glVertex2d(0.0f, barHeight);
+            glVertex2d(barWidth, barHeight);
+            glVertex2d(barWidth, maxBarHeight);
+            glVertex2d(0.0f, maxBarHeight);
 
-            glColor3f(1.0f,0.0f,0.0f);
-            glVertex2d(0.0f,0.0f);
-            glVertex2d(barWidth,0.0f);
-            glVertex2d(barWidth,barHeight);
-            glVertex2d(0.0f,barHeight);
+            glColor3f(1.0f, 0.0f, 0.0f);
+            glVertex2d(0.0f, 0.0f);
+            glVertex2d(barWidth, 0.0f);
+            glVertex2d(barWidth, barHeight);
+            glVertex2d(0.0f, barHeight);
         }
         glEnd();
         glPopMatrix();
     }
 
-    //=================================================================================================================
+    // =================================================================================================================
     /**
      * Utility function to easily create float buffers.
      *
-     * @param f1 A float.
-     * @param f2 A float.
-     * @param f3 A float.
-     * @param f4 A float.
+     * @param f1
+     *            A float.
+     * @param f2
+     *            A float.
+     * @param f3
+     *            A float.
+     * @param f4
+     *            A float.
      * @return A float buffer.
      */
-    static FloatBuffer floatBuffer(float f1, float f2,
-                                   float f3, float f4) {
+    static FloatBuffer floatBuffer(float f1, float f2, float f3, float f4) {
 
         FloatBuffer fb = BufferUtils.createFloatBuffer(4);
         fb.put(f1).put(f2).put(f3).put(f4).flip();
@@ -432,11 +425,39 @@ public class CubeQuest
 
     }
 
-    //=================================================================================================================
-    //                                  MAIN
-    //=================================================================================================================
-    public static void main(String[] args)
-    {
+    static void showPoints() {
+        if(PlayerClass.points < 0) {
+            PlayerClass.points = 0;
+        }
+        String text = "ABCD";
+        int s = 256; //Take whatever size suits you.
+        BufferedImage b = new BufferedImage(s, s, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = b.createGraphics();
+        g.setColor(Color.black);
+        g.drawString(text, 0, 0);
+
+        int co = b.getColorModel().getNumComponents();
+
+        byte[] data = new byte[co * s * s];
+        b.getRaster().getDataElements(0, 0, s, s, data);
+
+        ByteBuffer pixels = BufferUtils.createByteBuffer(data.length);
+        pixels.put(data);
+        pixels.rewind();
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, GL_RGB,  GL_UNSIGNED_BYTE, pixels);
+
+
+        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256,
+        //0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+
+        Display.setTitle(Long.toString(PlayerClass.points));
+    }
+    // =================================================================================================================
+    // MAIN
+    // =================================================================================================================
+    public static void main(String[] args) {
         try {
             gameInit();
             gameRun();
@@ -445,5 +466,4 @@ public class CubeQuest
         } finally {
             gameCleanup();
         }
-    }
-}
+    }}

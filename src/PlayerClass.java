@@ -3,7 +3,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.glu.Sphere;
 
-import java.net.URL;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,27 @@ import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
-/** ADD NAME FOR CHANGES:
- *
- *
- * */
-
 public class PlayerClass
 {
     enum Direction {NORTH, SOUTH, EAST, WEST}
+
+    /** The points scored in this round*/
+    static long points;
+
+    /**The number of points scored when a bullet strikes an enemy*/
+    static final int perHit = 2;
+
+    /**The number of points scored when a shot hits a boss*/
+    static final int perBossHit = 4;
+
+    /**The number of points scored when an block is completely destroyed*/
+    static final int perKill = 10;
+
+    /**The number of points for killing a boss*/
+    static final int perBossKill = 25;
+
+    /**The number of points deducted when a block strikes us*/
+    static final int collision = -2;
 
     /** Player speed (distance per second) */
     static final float PLAYER_SPEED = 10.0f;
@@ -49,8 +61,8 @@ public class PlayerClass
     {
         float maxHealth = 100;
         float health = 100;
-        boolean isAlive = true;     // not working TODO:
-        boolean playerDead()        // not implemented TODO:
+        boolean isAlive = true;
+        boolean playerDead()
         {
             if(player.health < 0)
                 System.exit(0);
@@ -102,6 +114,7 @@ public class PlayerClass
 
         // age (in seconds)
         float t = 0.0f;
+
     }
     //=================================================================================================================
     /** Player shot structure   */
@@ -229,7 +242,6 @@ public class PlayerClass
             }
         }
     }
-    //=================================================================================================================
-
-
+    //==================================================================================================================
 }
+

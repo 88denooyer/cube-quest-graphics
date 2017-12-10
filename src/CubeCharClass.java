@@ -1,7 +1,7 @@
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-//import sun.awt.image.PNGImageDecoder;
+import sun.awt.image.PNGImageDecoder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +28,7 @@ public class CubeCharClass
     /** Plot a unit cube (i.e, a cube spanning the [-1, 1] interval on the X, Y, and Z axes)    */
     static void plotSolidCube()
     {
+
         // set flat shading
         glShadeModel(GL_FLAT);
 
