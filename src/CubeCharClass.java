@@ -1,7 +1,7 @@
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import sun.awt.image.PNGImageDecoder;
+//import sun.awt.image.PNGImageDecoder;
 
 import javax.swing.*;
 import java.awt.*;

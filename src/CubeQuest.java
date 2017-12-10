@@ -5,7 +5,6 @@ import org.lwjgl.opengl.Display;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class CubeQuest {
 
     /** Target frame rate */
     static final int FRAME_RATE = 60;
-    private static final float FAR_PLANE = 120.0f;
 
     /** Light position (in camera space) */
     static final FloatBuffer lightPosition = floatBuffer(3.0f, 4.0f, 5.0f, 1.0f);
@@ -168,7 +166,6 @@ public class CubeQuest {
                 gameHandleCollisions();
                 gameRenderFrame();
                 showPoints();
-                themeGame();
             }
             timeStamp = System.currentTimeMillis();
             Display.sync(FRAME_RATE);
@@ -264,7 +261,7 @@ public class CubeQuest {
 
     // =================================================================================================================
     /** Check for collisions between player shots and enemies */
-
+    static HighscoreManager high = new HighscoreManager();
     static void collisionShotsandBossEnemies() {
         for (PlayerClass.PlayerShot shot : PlayerClass.player.shots) {
             if (shot.t < PlayerClass.PLAYER_SHOT_DURATION) {
@@ -273,10 +270,14 @@ public class CubeQuest {
                     be.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
                     if (be.health <= 0) {
                         PlayerClass.points += PlayerClass.perBossKill;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                         BossEnemyClass.bossRespawn(be);
                     }
                     else {
                         PlayerClass.points += PlayerClass.perBossHit;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                     }
 
                     shot.t = PlayerClass.PLAYER_SHOT_DURATION;
@@ -296,10 +297,14 @@ public class CubeQuest {
                     e.health -= PlayerClass.PLAYER_SHOT_DAMAGE;
                     if (e.health <= 0) {
                         PlayerClass.points += PlayerClass.perKill;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                         EnemyClass.enemiesRespawn(e);
                     }
                     else {
                         PlayerClass.points += PlayerClass.perHit;
+                        int intScore=(int)PlayerClass.points;
+                        high.addScore(intScore);
                     }
 
 
@@ -356,6 +361,7 @@ public class CubeQuest {
     // =========================================================================
     // UTILITY AND MISC.
     // =========================================================================
+
 
     static void displayHUD() {
         float w = Display.getWidth();
@@ -454,34 +460,15 @@ public class CubeQuest {
         //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256,
         //0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
-
-        Display.setTitle(Long.toString(PlayerClass.points));
+        String TitleString= "Score:  " + Long.toString(PlayerClass.points)+
+                                    "                                       High Score:"+  high.getHighscoreString();
+        Display.setTitle(TitleString);
     }
-
-    public static void themeGame()
-    {
-        glColor3f(0.0f, 0.5f, 1.0f);
-        glBegin(GL_QUADS);
-        {
-            glVertex3f(-FAR_PLANE, -10.0f, -FAR_PLANE);
-            glVertex3f(-FAR_PLANE, -10.0f, +FAR_PLANE);
-            glVertex3f(+FAR_PLANE, -10.0f, +FAR_PLANE);
-            glVertex3f(+FAR_PLANE, -10.0f, -FAR_PLANE);
-
-            glVertex3f(FAR_PLANE, -10.0f, FAR_PLANE);
-
-            //glVertex3f(-FAR_PLANE, 10.0f, -FAR_PLANE); // flat above player
-            //glVertex3f(-FAR_PLANE, 10.1f, +FAR_PLANE);
-            //glVertex3f(FAR_PLANE, -110.1f, +FAR_PLANE);
-            //glVertex3f(FAR_PLANE, -0.1f, -FAR_PLANE);
-        }
-        glEnd();
-    }
-
     // =================================================================================================================
     // MAIN
     // =================================================================================================================
     public static void main(String[] args) {
+
         try {
             gameInit();
             gameRun();
