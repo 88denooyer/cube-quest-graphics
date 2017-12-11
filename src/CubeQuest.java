@@ -66,7 +66,27 @@ public class CubeQuest {
     static boolean finished;
 
 
+    private static final float FAR_PLANE = 120.0f;
     // =================================================================================================================
+
+    public static void themeGame() {
+
+        glColor3f(0.0f, 0.5f, 0.2f);
+        glBegin(GL_QUADS);
+        {
+            glVertex3f(-FAR_PLANE, -10.0f, -FAR_PLANE);
+            glVertex3f(-FAR_PLANE, -10.0f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -10.0f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -10.0f, -FAR_PLANE);
+            glVertex3f(-FAR_PLANE, -60.0f, -FAR_PLANE);
+            glVertex3f(-FAR_PLANE, 100.1f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -50.1f, +FAR_PLANE);
+            glVertex3f(+FAR_PLANE, -50.1f, -FAR_PLANE);
+
+
+        }
+        glEnd();
+    }
 
     /**
      * Initialize display and OpenGL properties
@@ -166,6 +186,7 @@ public class CubeQuest {
                 gameHandleCollisions();
                 gameRenderFrame();
                 showPoints();
+                themeGame();
             }
             timeStamp = System.currentTimeMillis();
             Display.sync(FRAME_RATE);
@@ -244,6 +265,9 @@ public class CubeQuest {
         PlayerClass.playerUpdate(dt);
         EnemyClass.enemiesUpdate(dt);
         BossEnemyClass.bossUpdate(dt);
+
+        CurrentLevel.whatLevel(PlayerClass.points);
+        CurrentLevel.enemyIncrease(CurrentLevel.level);
     }
 
     // =================================================================================================================
@@ -451,8 +475,10 @@ public class CubeQuest {
         //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256,
         //0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
+        Display.setTitle("Score: " + Integer.toString(PlayerClass.points) + " Level: " + Integer.toString(CurrentLevel.level));
 
-        Display.setTitle(Long.toString(PlayerClass.points));
+
+        //Display.setTitle(Long.toString(PlayerClass.points));
     }
     // =================================================================================================================
     // MAIN

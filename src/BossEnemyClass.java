@@ -18,11 +18,11 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 /** DUPLICATE OF ENEMY CLASS TO FIT CHARACTERISTICS OF BOSS ENEMY   */
 public class BossEnemyClass
 {
-    static final int BOSS_COUNT = 5;
+    static int BOSS_COUNT = 5;
     static final float BOSS_SIZE = 2.0f;
-    static final float BOSS_SPEED = 2.0f;
+    static float BOSS_SPEED = 2.0f;
     static final float BOSS_SPAWN_TIME = 1.0f;
-    static final float BOSS_MAX_HEALTH = 30.0f;
+    static float BOSS_MAX_HEALTH = 30.0f;
 
     static class Boss
     {

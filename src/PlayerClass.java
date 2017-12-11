@@ -1,3 +1,4 @@
+import com.sun.media.sound.AudioFileSoundbankReader;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -17,7 +18,7 @@ public class PlayerClass
     enum Direction {NORTH, SOUTH, EAST, WEST}
 
     /** The points scored in this round*/
-    static long points;
+    static int points;
 
     /**The number of points scored when a bullet strikes an enemy*/
     static final int perHit = 2;
@@ -223,7 +224,6 @@ public class PlayerClass
                 shot.z = player.z;
                 shot.dx = 0.0f;
                 shot.dz = 0.0f;
-
 
                 // set velocity according to player facing direction
                 switch (player.facing)

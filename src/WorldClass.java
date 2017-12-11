@@ -36,8 +36,8 @@ public class WorldClass
 
         glDisable(GL_LIGHTING);
         {
-            glColor4f(0.75f, 0.75f, 0.75f, 0.75f);
-            glLineWidth(0.2f);
+            glColor3f(0.0f, 0.0f, 0.0f);
+            glLineWidth(0.001f);
             glBegin(GL_LINES);
             {
                 glNormal3f(0.0f, 1.0f, 0.0f);

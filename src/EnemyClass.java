@@ -19,19 +19,19 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 public class EnemyClass
 {
     /** Maximum number of enemies   */
-    static final int ENEMY_COUNT = 50;
+    static int ENEMY_COUNT = 50;
 
     /** Size of the enemies */
     static final float ENEMY_SIZE = 0.5f;
 
     /** Enemy speed in distance per second  */
-    static final float ENEMY_SPEED = 1.5f;
+    static float ENEMY_SPEED = 1.5f;
 
     /** Time it takes for enemy to spawn in seconds */
     static final float ENEMY_SPAWN_TIME = 1.0f;
 
     /** Starting health of enemies  */
-    static final float ENEMY_MAX_HEALTH = 10.0f;
+    static float ENEMY_MAX_HEALTH = 10.0f;
 
     //=================================================================================================================
 
