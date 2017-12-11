@@ -19,7 +19,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
 public class BossEnemyClass
 {
     static int BOSS_COUNT = 5;
-    static final float BOSS_SIZE = 2.0f;
+    static final float BOSS_SIZE = 1.0f;
     static float BOSS_SPEED = 2.0f;
     static final float BOSS_SPAWN_TIME = 1.0f;
     static float BOSS_MAX_HEALTH = 30.0f;

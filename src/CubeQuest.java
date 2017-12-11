@@ -1,5 +1,6 @@
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import java.awt.Color;
@@ -167,6 +168,9 @@ public class CubeQuest {
         EnemyClass.enemiesInit();
         BossEnemyClass.bossInit();
 
+        Mouse.create();
+        Mouse.setGrabbed(true);
+
     }
 
     // =================================================================================================================
@@ -205,8 +209,7 @@ public class CubeQuest {
         // TODO: Modify as needed to handle game input.
 
         // escape to quit
-        if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-        {
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             finished = true;
         }
 
@@ -244,6 +247,49 @@ public class CubeQuest {
             PlayerClass.player.facing = PlayerClass.Direction.SOUTH;
         }
 
+        // Speed changing based on level
+        if (Keyboard.isKeyDown(Keyboard.KEY_A) && CurrentLevel.level > 1) {
+            PlayerClass.player.dx = -1.0f - CurrentLevel.level * 0.2f;
+            PlayerClass.player.facing = PlayerClass.Direction.WEST;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_D) && CurrentLevel.level > 1) {
+            PlayerClass.player.dx = +1.0f + CurrentLevel.level * 0.2f;
+            PlayerClass.player.facing = PlayerClass.Direction.EAST;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_W) && CurrentLevel.level > 1) {
+            PlayerClass.player.dz = -1.0f - CurrentLevel.level * 0.2f;
+            PlayerClass.player.facing = PlayerClass.Direction.NORTH;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_S) && CurrentLevel.level > 1) {
+            PlayerClass.player.dz = +1.0f + CurrentLevel.level * 0.2f;
+            PlayerClass.player.facing = PlayerClass.Direction.SOUTH;
+        }
+
+        // ============================================================================
+        // Default speed
+        if (Keyboard.isKeyDown(Keyboard.KEY_A) && CurrentLevel.level <= 1) {
+            PlayerClass.player.dx = -1.0f;
+            PlayerClass.player.facing = PlayerClass.Direction.WEST;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_D) && CurrentLevel.level <= 1) {
+            PlayerClass.player.dx = +1.0f;
+            PlayerClass.player.facing = PlayerClass.Direction.EAST;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_W) && CurrentLevel.level <= 1) {
+            PlayerClass.player.dz = -1.0f;
+            PlayerClass.player.facing = PlayerClass.Direction.NORTH;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_S) && CurrentLevel.level <= 1) {
+            PlayerClass.player.dz = +1.0f;
+            PlayerClass.player.facing = PlayerClass.Direction.SOUTH;
+        }
+        
         // space bar
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             PlayerClass.playerShoot();
@@ -251,7 +297,6 @@ public class CubeQuest {
         if (!Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             PlayerClass.playerShoot();
         }
-
     }
 
     // =================================================================================================================
